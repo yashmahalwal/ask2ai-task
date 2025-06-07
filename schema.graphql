@@ -18,7 +18,7 @@ enum RegressionType {
   RIDGE
 }
 
-# Job scheduled for calculation
+# Job scheduled for model
 enum JobStatus {
   QUEUED
   RUNNING
@@ -31,10 +31,10 @@ type Job implements Node {
   createdAt: DateTime!
   updatedAt: DateTime
   status: JobStatus!
-  calculation: Calculation
+  model: Model
 }
 
-type Calculation implements Node {
+type Model implements Node {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime
@@ -54,10 +54,10 @@ input DataPointInput {
 }
 
 input CreateJobInput {
-  calculation: CreateJobCalculationInput!
+  model: CreateModelInput!
 }
 
-input CreateJobCalculationInput {
+input CreateModelInput {
   type: RegressionType!
   data: [DataPointInput!]!
   alpha: Float

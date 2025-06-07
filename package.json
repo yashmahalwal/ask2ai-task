@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/index.ts",
     "test": "jest",
-    "graphql-types": "graphql-codegen --config graphql-codegen.ts"
+    "graphql-types": "graphql-codegen --config graphql-codegen.ts",
+    "typecheck": "tsc --noEmit"
   },
   "repository": {
     "type": "git",

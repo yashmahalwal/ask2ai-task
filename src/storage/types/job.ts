@@ -1,5 +1,5 @@
 import {
-  Model,
+  Model as SequelizeModel,
   DataTypes,
   CreationOptional,
   InferAttributes,
@@ -7,7 +7,7 @@ import {
   ForeignKey,
 } from "sequelize";
 import { sequelize } from "../config";
-import { Calculation } from "./calculation";
+import { Model as MLModel } from "./model";
 
 export enum JobStatus {
   QUEUED = "QUEUED",
@@ -16,17 +16,17 @@ export enum JobStatus {
   FAILED = "FAILED",
 }
 
-// Job model: Represents a processing job that is always linked to a Calculation via a foreign key (calculationId).
-// Each Job references one Calculation, and each Calculation can have one Job. This enforces relational integrity and allows easy access to calculation details for each job.
+// Job model: Represents a processing job that is always linked to a Model via a foreign key (modelId).
+// Each Job references one Model, and each Model can have one Job. This enforces relational integrity and allows easy access to model details for each job.
 
-export class Job extends Model<
+export class Job extends SequelizeModel<
   InferAttributes<Job>,
   InferCreationAttributes<Job>
 > {
   declare id: CreationOptional<string>;
   declare status: JobStatus;
-  // Foreign key linking this job to its calculation
-  declare calculationId: ForeignKey<Calculation["id"]>;
+  // Foreign key linking this job to its model
+  declare modelId: ForeignKey<MLModel["id"]>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -43,11 +43,11 @@ Job.init(
       allowNull: false,
       defaultValue: JobStatus.QUEUED,
     },
-    calculationId: {
+    modelId: {
       type: DataTypes.UUID,
       allowNull: false,
       references: {
-        model: Calculation,
+        model: MLModel,
         key: "id",
       },
       onDelete: "CASCADE",
@@ -70,5 +70,5 @@ Job.init(
   }
 );
 
-Job.belongsTo(Calculation, { foreignKey: "calculationId", as: "calculation" });
-Calculation.hasOne(Job, { foreignKey: "calculationId", as: "job" });
+Job.belongsTo(MLModel, { foreignKey: "modelId", as: "model" });
+MLModel.hasOne(Job, { foreignKey: "modelId", as: "job" });

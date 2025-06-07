@@ -1,5 +1,5 @@
 import {
-  Model,
+  Model as SequelizeModel,
   DataTypes,
   CreationOptional,
   InferAttributes,
@@ -7,9 +7,9 @@ import {
 } from "sequelize";
 import { sequelize } from "../config";
 
-export class Calculation extends Model<
-  InferAttributes<Calculation>,
-  InferCreationAttributes<Calculation>
+export class Model extends SequelizeModel<
+  InferAttributes<Model>,
+  InferCreationAttributes<Model>
 > {
   declare id: CreationOptional<string>;
   declare type: string;
@@ -20,7 +20,7 @@ export class Calculation extends Model<
   declare updatedAt: CreationOptional<Date>;
 }
 
-Calculation.init(
+Model.init(
   {
     id: {
       type: DataTypes.UUID,
@@ -43,7 +43,7 @@ Calculation.init(
   },
   {
     sequelize,
-    tableName: "calculations",
+    tableName: "models",
     timestamps: true,
   }
 );
