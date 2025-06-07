@@ -20,7 +20,7 @@ const server = new ApolloServer({
 async function main() {
   // Start database
   logger.debug("Setting up database");
-  initialiseStorage();
+  await initialiseStorage();
 
   // Read and parse the port
   const port = process.env.PORT && parseInt(process.env.PORT);

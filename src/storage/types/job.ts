@@ -10,7 +10,6 @@ import { sequelize } from "../config";
 import { Model as MLModel } from "./model";
 
 export enum JobStatus {
-  QUEUED = "QUEUED",
   RUNNING = "RUNNING",
   COMPLETED = "COMPLETED",
   FAILED = "FAILED",
@@ -41,7 +40,7 @@ Job.init(
     status: {
       type: DataTypes.ENUM(...Object.values(JobStatus)),
       allowNull: false,
-      defaultValue: JobStatus.QUEUED,
+      defaultValue: JobStatus.RUNNING,
     },
     modelId: {
       type: DataTypes.UUID,

@@ -5,8 +5,6 @@ import { Job } from "../../../storage/types/job";
 import { Model } from "../../../storage/types/model";
 import { MutationResolvers, ResolversTypes, JobStatus } from "../../types";
 
-
-
 export const createJob: MutationResolvers["createJob"] = async (
   _,
   { input },
@@ -30,17 +28,16 @@ export const createJob: MutationResolvers["createJob"] = async (
       // Create the job with the model
       const job = await Job.create(
         {
-          status: DbJobStatus.QUEUED,
+          status: DbJobStatus.RUNNING,
           modelId: model.id,
         },
         { transaction: t }
       );
 
-
       // Map the database model to GraphQL type
       return {
         id: job.id,
-        status: JobStatus.Queued,
+        status: JobStatus.Running,
         createdAt: job.createdAt.toISOString(),
         updatedAt: job.updatedAt?.toISOString(),
         model: {

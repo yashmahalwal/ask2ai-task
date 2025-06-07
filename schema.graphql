@@ -6,12 +6,6 @@ interface Node {
   id: ID!
 }
 
-# Pagination support
-interface ForwardPaginatedResponse {
-  data: [Node!]!
-  nextToken: String
-}
-
 enum RegressionType {
   LINEAR
   LASSO
@@ -20,7 +14,6 @@ enum RegressionType {
 
 # Job scheduled for model
 enum JobStatus {
-  QUEUED
   RUNNING
   COMPLETED
   FAILED
@@ -43,11 +36,6 @@ type Model implements Node {
   result: String
 }
 
-type ListJobResponse implements ForwardPaginatedResponse {
-  data: [Job!]!
-  nextToken: String
-}
-
 input DataPointInput {
   x: Float!
   y: Float!
@@ -64,7 +52,7 @@ input CreateModelInput {
 }
 
 type Query {
-  listJobs: ListJobResponse!
+  listJobs: [Job!]!
   getJob(id: ID!): Job
 }
 
