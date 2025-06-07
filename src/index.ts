@@ -3,9 +3,9 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { typeDefs } from "./schema";
 import { resolvers } from "./graphql/resolvers";
 import { config as readEnv } from "dotenv";
-import { initialiseDatabase } from "./storage/initialise-database";
+import { initialiseDatabase } from "./storage/config";
 import { GraphqlContext } from "./types";
-import { logger } from "./logger";
+import { logger } from "./utils/logger";
 
 // Load .env vars
 readEnv();

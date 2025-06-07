@@ -31,6 +31,16 @@ type Job implements Node {
   createdAt: DateTime!
   updatedAt: DateTime
   status: JobStatus!
+  calculation: Calculation
+}
+
+type Calculation implements Node {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  type: RegressionType!
+  inputData: String!
+  result: String
 }
 
 type ListJobResponse implements ForwardPaginatedResponse {
@@ -38,8 +48,26 @@ type ListJobResponse implements ForwardPaginatedResponse {
   nextToken: String
 }
 
+input DataPointInput {
+  x: Float!
+  y: Float!
+}
+
+input CreateJobInput {
+  calculation: CreateJobCalculationInput!
+}
+
+input CreateJobCalculationInput {
+  type: RegressionType!
+  data: [DataPointInput!]!
+  alpha: Float
+}
+
 type Query {
   listJobs: ListJobResponse!
   getJob(id: ID!): Job
 }
-  
+
+type Mutation {
+  createJob(input: CreateJobInput!): Job
+}
