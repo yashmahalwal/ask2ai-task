@@ -17,6 +17,31 @@ export type Scalars = {
   DateTime: { input: string; output: string; }
 };
 
+export type Calculation = Node & {
+  __typename?: 'Calculation';
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  inputData: Scalars['String']['output'];
+  result?: Maybe<Scalars['String']['output']>;
+  type: RegressionType;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type CreateJobCalculationInput = {
+  alpha?: InputMaybe<Scalars['Float']['input']>;
+  data: Array<DataPointInput>;
+  type: RegressionType;
+};
+
+export type CreateJobInput = {
+  calculation: CreateJobCalculationInput;
+};
+
+export type DataPointInput = {
+  x: Scalars['Float']['input'];
+  y: Scalars['Float']['input'];
+};
+
 export type ForwardPaginatedResponse = {
   data: Array<Node>;
   nextToken?: Maybe<Scalars['String']['output']>;
@@ -24,6 +49,7 @@ export type ForwardPaginatedResponse = {
 
 export type Job = Node & {
   __typename?: 'Job';
+  calculation?: Maybe<Calculation>;
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
   status: JobStatus;
@@ -41,6 +67,16 @@ export type ListJobResponse = ForwardPaginatedResponse & {
   __typename?: 'ListJobResponse';
   data: Array<Job>;
   nextToken?: Maybe<Scalars['String']['output']>;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createJob?: Maybe<Job>;
+};
+
+
+export type MutationCreateJobArgs = {
+  input: CreateJobInput;
 };
 
 export type Node = {
@@ -135,18 +171,24 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping of interface types */
 export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> = {
   ForwardPaginatedResponse: ( ListJobResponse );
-  Node: ( Job );
+  Node: ( Calculation ) | ( Job );
 };
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  Calculation: ResolverTypeWrapper<Calculation>;
+  CreateJobCalculationInput: CreateJobCalculationInput;
+  CreateJobInput: CreateJobInput;
+  DataPointInput: DataPointInput;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
+  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   ForwardPaginatedResponse: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['ForwardPaginatedResponse']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Job: ResolverTypeWrapper<Job>;
   JobStatus: JobStatus;
   ListJobResponse: ResolverTypeWrapper<ListJobResponse>;
+  Mutation: ResolverTypeWrapper<{}>;
   Node: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Node']>;
   Query: ResolverTypeWrapper<{}>;
   RegressionType: RegressionType;
@@ -156,14 +198,30 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
+  Calculation: Calculation;
+  CreateJobCalculationInput: CreateJobCalculationInput;
+  CreateJobInput: CreateJobInput;
+  DataPointInput: DataPointInput;
   DateTime: Scalars['DateTime']['output'];
+  Float: Scalars['Float']['output'];
   ForwardPaginatedResponse: ResolversInterfaceTypes<ResolversParentTypes>['ForwardPaginatedResponse'];
   ID: Scalars['ID']['output'];
   Job: Job;
   ListJobResponse: ListJobResponse;
+  Mutation: {};
   Node: ResolversInterfaceTypes<ResolversParentTypes>['Node'];
   Query: {};
   String: Scalars['String']['output'];
+};
+
+export type CalculationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Calculation'] = ResolversParentTypes['Calculation']> = {
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  inputData?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  result?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['RegressionType'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
@@ -177,6 +235,7 @@ export type ForwardPaginatedResponseResolvers<ContextType = any, ParentType exte
 };
 
 export type JobResolvers<ContextType = any, ParentType extends ResolversParentTypes['Job'] = ResolversParentTypes['Job']> = {
+  calculation?: Resolver<Maybe<ResolversTypes['Calculation']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['JobStatus'], ParentType, ContextType>;
@@ -190,8 +249,12 @@ export type ListJobResponseResolvers<ContextType = any, ParentType extends Resol
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createJob?: Resolver<Maybe<ResolversTypes['Job']>, ParentType, ContextType, RequireFields<MutationCreateJobArgs, 'input'>>;
+};
+
 export type NodeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Node'] = ResolversParentTypes['Node']> = {
-  __resolveType: TypeResolveFn<'Job', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'Calculation' | 'Job', ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
 };
 
@@ -201,10 +264,12 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type Resolvers<ContextType = any> = {
+  Calculation?: CalculationResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   ForwardPaginatedResponse?: ForwardPaginatedResponseResolvers<ContextType>;
   Job?: JobResolvers<ContextType>;
   ListJobResponse?: ListJobResponseResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
   Node?: NodeResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 };

@@ -13,6 +13,7 @@ export class Calculation extends Model<
 > {
   declare id: CreationOptional<string>;
   declare type: string;
+  // JSON string to store array of {x,y} points, maintaining data structure in SQLite's TEXT field
   declare inputData: string;
   declare result: string | null;
   declare createdAt: CreationOptional<Date>;

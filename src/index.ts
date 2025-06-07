@@ -3,16 +3,16 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { typeDefs } from "./schema";
 import { resolvers } from "./graphql/resolvers";
 import { config as readEnv } from "dotenv";
-import { initialiseDatabase } from "./storage/config";
-import { GraphqlContext } from "./types";
+import { initialiseStorage } from "./storage/initialise-storage";
 import { logger } from "./utils/logger";
+import { isDev } from "./utils/environment";
 
 // Load .env vars
 readEnv();
 
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
-const server = new ApolloServer<GraphqlContext>({
+const server = new ApolloServer({
   typeDefs,
   resolvers,
 });
@@ -20,7 +20,7 @@ const server = new ApolloServer<GraphqlContext>({
 async function main() {
   // Start database
   logger.debug("Setting up database");
-  const database = initialiseDatabase();
+  initialiseStorage();
 
   // Read and parse the port
   const port = process.env.PORT && parseInt(process.env.PORT);
@@ -31,12 +31,9 @@ async function main() {
   const { url } = await startStandaloneServer(server, {
     // Fallback to port 4000
     listen: { port: isNaN(port) ? 4000 : port },
-    context: async () => ({
-      database,
-    }),
   });
-
   logger.info(`🚀  Server ready at: ${url}`);
+  logger.debug(`🌍  Environment: ${isDev() ? "Development" : "Production"}`);
 }
 
 // Start the server
