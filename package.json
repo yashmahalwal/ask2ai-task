@@ -1,0 +1,39 @@
+{
+  "name": "ask2ai-task",
+  "version": "1.0.0",
+  "description": "backend task for ask2ai challenge",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/index.ts",
+    "test": "jest",
+    "graphql-types": "graphql-codegen --config graphql-codegen.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yashmahalwal/ask2ai-task.git"
+  },
+  "author": "Yash Mahalwal <yashmahalwal@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yashmahalwal/ask2ai-task/issues"
+  },
+  "homepage": "https://github.com/yashmahalwal/ask2ai-task#readme",
+  "dependencies": {
+    "@apollo/server": "^4.12.2",
+    "dotenv": "^16.5.0",
+    "graphql": "^16.11.0",
+    "sequelize": "^6.37.7",
+    "sqlite3": "^5.1.7",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "5.0.7",
+    "@graphql-codegen/introspection": "4.0.3",
+    "@graphql-codegen/typescript": "4.1.6",
+    "@graphql-codegen/typescript-resolvers": "^4.5.1",
+    "@types/node": "^22.15.30",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

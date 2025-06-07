@@ -1,0 +1,45 @@
+# Add support for ISO string date-time
+scalar DateTime
+
+#  Global object identification
+interface Node {
+  id: ID!
+}
+
+# Pagination support
+interface ForwardPaginatedResponse {
+  data: [Node!]!
+  nextToken: String
+}
+
+enum RegressionType {
+  LINEAR
+  LASSO
+  RIDGE
+}
+
+# Job scheduled for calculation
+enum JobStatus {
+  QUEUED
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+type Job implements Node {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  status: JobStatus!
+}
+
+type ListJobResponse implements ForwardPaginatedResponse {
+  data: [Job!]!
+  nextToken: String
+}
+
+type Query {
+  listJobs: ListJobResponse!
+  getJob(id: ID!): Job
+}
+  
