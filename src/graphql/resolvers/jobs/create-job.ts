@@ -4,6 +4,7 @@ import { sequelize } from "../../../storage/config";
 import { Job } from "../../../storage/types/job";
 import { Model } from "../../../storage/types/model";
 import { MutationResolvers, ResolversTypes, JobStatus } from "../../types";
+import { runModelJobAsync } from "../../handlers/run-model";
 
 export const createJob: MutationResolvers["createJob"] = async (
   _,
@@ -12,7 +13,7 @@ export const createJob: MutationResolvers["createJob"] = async (
   ___
 ) => {
   try {
-    const result = await sequelize.transaction(async (t) => {
+    const job = await sequelize.transaction(async (t) => {
       // Create the model first
       const model = await Model.create(
         {
@@ -51,8 +52,12 @@ export const createJob: MutationResolvers["createJob"] = async (
       } as ResolversTypes["Job"];
     });
 
-    logger.debug(`Created new job with ID: ${result.id}`);
-    return result;
+    runModelJobAsync(input.model.data, input.model.alpha, job.id, job.model.id);
+
+    logger.debug(
+      `Created new job with ID: ${job.id}, model ID ${job.model.id}`
+    );
+    return job;
   } catch (error) {
     logger.error("Error creating job:", error);
     throw error;
