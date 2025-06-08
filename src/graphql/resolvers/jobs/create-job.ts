@@ -4,7 +4,7 @@ import { sequelize } from "../../../storage/config";
 import { Job } from "../../../storage/types/job";
 import { Model, ModelStatus } from "../../../storage/types/model";
 import { MutationResolvers, ResolversTypes, JobStatus } from "../../types";
-import { runModelJobAsync } from "../../handlers/run-model";
+import { runModel } from "../../handlers/run-model";
 
 export const createJob: MutationResolvers["createJob"] = async (
   _,
@@ -49,12 +49,7 @@ export const createJob: MutationResolvers["createJob"] = async (
       } as ResolversTypes["Job"];
     });
 
-    runModelJobAsync(
-      input.model.data,
-      input.model.alpha,
-      result.id,
-      result.modelId
-    );
+    runModel(input.model.data, input.model.alpha, result.id, result.modelId);
 
     logger.debug(
       `Created new job with ID: ${result.id}, model ID: ${result.modelId}`
