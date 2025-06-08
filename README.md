@@ -213,10 +213,14 @@ These choices make the project approachable, easy to extend, and well-suited for
    npm run build
    ```
 3. **Start the server:**
+
    ```bash
    npm start
    ```
+
    The server will start and expose the GraphQL API at `http://localhost:4000/graphql` (or the port specified in your environment).
+
+   > **Tip:** You can use the built-in GraphQL Playground (Apollo Sandbox) at [http://localhost:4000/graphql](http://localhost:4000/graphql) to explore the schema, run queries, mutations, and subscriptions interactively.
 
 ### Development Workflow
 
