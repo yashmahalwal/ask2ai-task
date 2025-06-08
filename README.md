@@ -2,13 +2,70 @@
 
 ## Table of Contents
 
+- [Development](#development)
 - [Introduction](#introduction)
 - [High-Level API Design](#high-level-api-design)
 - [Storage Modelling](#storage-modelling)
 - [GraphQL Modelling](#graphql-modelling)
 - [Coding Practices & Design Choices](#coding-practices--design-choices)
-- [Development](#development)
 - [Demos](#demos)
+
+## Development
+
+### Running the Project
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+2. **Build the project:**
+   ```bash
+   npm run build
+   ```
+3. **Start the server:**
+
+   ```bash
+   npm start
+   ```
+
+   The server will start and expose the GraphQL API at `http://localhost:4000/graphql` (or the port specified in your environment).
+
+   > **Tip:** You can use the built-in GraphQL Playground (Apollo Sandbox) at [http://localhost:4000/graphql](http://localhost:4000/graphql) to explore the schema, run queries, mutations, and subscriptions interactively.
+
+### Development Workflow
+
+- For local development, you can use hot-reloading with:
+
+  ```bash
+  npm run dev
+  ```
+
+  This uses `nodemon` to automatically restart the server on code changes.
+
+- **Environment Variables:**
+
+  - You can configure the server using a `.env` file in the project root. An example file, `.env.example`, is provided—copy it to `.env` and adjust as needed for your setup.
+  - Common variables include:
+    - `PORT`: The port the server runs on (default: 4000)
+    - `ENVIRONMENT`: Set to `development` or `production`
+    - (Add other variables as needed for your setup)
+  - The project uses `dotenv` to load these variables automatically.
+
+- **Dev Mode Behavior:**
+
+  - When `ENVIRONMENT=dev`, model training jobs complete much faster to speed up testing and iteration.
+  - Debug logs are enabled, providing detailed output for easier troubleshooting and visibility into the system's behavior.
+
+- **Code Generation:**
+
+  - If you change the GraphQL schema, run:
+    ```bash
+    npm run generate-graphql-types
+    ```
+    This updates the generated TypeScript types for resolvers and schema safety.
+
+- **Database:**
+  - By default, the project uses a local SQLite database file. No setup is required for development.
 
 ## Introduction
 
@@ -197,64 +254,6 @@ This project is intentionally kept simple and pragmatic, reflecting the needs of
 - This keeps the structure simple and easy to navigate, avoiding unnecessary complexity that can arise from over-engineering in small projects.
 
 These choices make the project approachable, easy to extend, and well-suited for demonstration, prototyping, or as a learning resource.
-
----
-
-## Development
-
-### Running the Project
-
-1. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-2. **Build the project:**
-   ```bash
-   npm run build
-   ```
-3. **Start the server:**
-
-   ```bash
-   npm start
-   ```
-
-   The server will start and expose the GraphQL API at `http://localhost:4000/graphql` (or the port specified in your environment).
-
-   > **Tip:** You can use the built-in GraphQL Playground (Apollo Sandbox) at [http://localhost:4000/graphql](http://localhost:4000/graphql) to explore the schema, run queries, mutations, and subscriptions interactively.
-
-### Development Workflow
-
-- For local development, you can use hot-reloading with:
-
-  ```bash
-  npm run dev
-  ```
-
-  This uses `nodemon` to automatically restart the server on code changes.
-
-- **Environment Variables:**
-
-  - You can configure the server using a `.env` file in the project root. Common variables include:
-    - `PORT`: The port the server runs on (default: 4000)
-    - `NODE_ENV`: Set to `development` or `production`
-    - (Add other variables as needed for your setup)
-  - The project uses `dotenv` to load these variables automatically.
-
-- **Dev Mode Behavior:**
-
-  - When `NODE_ENV=dev`, model training jobs complete much faster to speed up testing and iteration.
-  - Debug logs are enabled, providing detailed output for easier troubleshooting and visibility into the system's behavior.
-
-- **Code Generation:**
-
-  - If you change the GraphQL schema, run:
-    ```bash
-    npm run generate-graphql-types
-    ```
-    This updates the generated TypeScript types for resolvers and schema safety.
-
-- **Database:**
-  - By default, the project uses a local SQLite database file. No setup is required for development.
 
 ---
 
