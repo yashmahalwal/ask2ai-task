@@ -1,14 +1,12 @@
+// Load env vars - must be the first import
+import "dotenv/config";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { typeDefs } from "./schema";
 import { resolvers } from "./graphql/resolvers";
-import { config as readEnv } from "dotenv";
 import { initialiseStorage } from "./storage/initialise-storage";
 import { logger } from "./utils/logger";
 import { isDev } from "./utils/environment";
-
-// Load .env vars
-readEnv();
 
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.

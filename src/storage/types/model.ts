@@ -7,6 +7,11 @@ import {
 } from "sequelize";
 import { sequelize } from "../config";
 
+export enum ModelStatus {
+  TRAINING = "TRAINING",
+  TRAINED = "TRAINED",
+}
+
 export class Model extends SequelizeModel<
   InferAttributes<Model>,
   InferCreationAttributes<Model>
@@ -15,7 +20,7 @@ export class Model extends SequelizeModel<
   declare type: string;
   // JSON string to store array of {x,y} points, maintaining data structure in SQLite's TEXT field
   declare inputData: string;
-  declare result: string | null;
+  declare status: ModelStatus;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -29,7 +34,11 @@ Model.init(
     },
     type: { type: DataTypes.STRING, allowNull: false },
     inputData: { type: DataTypes.TEXT, allowNull: false },
-    result: { type: DataTypes.TEXT, allowNull: true },
+    status: {
+      type: DataTypes.ENUM(...Object.values(ModelStatus)),
+      allowNull: false,
+      defaultValue: ModelStatus.TRAINING,
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,

@@ -1,7 +1,9 @@
+import { publishJobStatusUpdated } from "../../pubsub";
 import { runLinearRegression } from "../../run-linear-regression";
-import { Job, JobStatus } from "../../storage/types/job";
-import { Model } from "../../storage/types/model";
+import { Job, JobStatus as DBJobStatus } from "../../storage/types/job";
+import { Model, ModelStatus } from "../../storage/types/model";
 import { logger } from "../../utils/logger";
+import { JobStatus } from "../types";
 
 export async function runModelJobAsync(
   data: { x: number; y: number }[],
@@ -9,8 +11,16 @@ export async function runModelJobAsync(
   jobId: string,
   modelId: string
 ) {
-  const { result } = await runLinearRegression(data, alpha);
-  await Model.update({ result }, { where: { id: modelId } });
-  await Job.update({ status: JobStatus.COMPLETED }, { where: { id: jobId } });
+  await runLinearRegression(data, alpha);
+  await Model.update(
+    { status: ModelStatus.TRAINED },
+    { where: { id: modelId } }
+  );
+  await Job.update({ status: DBJobStatus.COMPLETED }, { where: { id: jobId } });
   logger.debug(`Model ${modelId} trained, job ${jobId} marked as COMPLETED`);
+  publishJobStatusUpdated({
+    jobId,
+    modelId,
+    status: JobStatus.Completed,
+  });
 }

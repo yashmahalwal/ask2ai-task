@@ -21,11 +21,15 @@
   "homepage": "https://github.com/yashmahalwal/ask2ai-task#readme",
   "dependencies": {
     "@apollo/server": "^4.12.2",
+    "@graphql-tools/schema": "^10.0.23",
     "dotenv": "^16.5.0",
     "graphql": "^16.11.0",
+    "graphql-subscriptions": "^3.0.0",
+    "graphql-ws": "^6.0.5",
     "sequelize": "^6.37.7",
     "sqlite3": "^5.1.7",
-    "winston": "^3.17.0"
+    "winston": "^3.17.0",
+    "ws": "^8.18.2"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "5.0.7",

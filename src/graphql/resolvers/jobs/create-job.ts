@@ -3,7 +3,12 @@ import { JobStatus as DbJobStatus } from "../../../storage/types/job";
 import { sequelize } from "../../../storage/config";
 import { Job } from "../../../storage/types/job";
 import { Model } from "../../../storage/types/model";
-import { MutationResolvers, ResolversTypes, JobStatus } from "../../types";
+import {
+  MutationResolvers,
+  ResolversTypes,
+  JobStatus,
+  ModelStatus,
+} from "../../types";
 import { runModelJobAsync } from "../../handlers/run-model";
 
 export const createJob: MutationResolvers["createJob"] = async (
@@ -45,7 +50,7 @@ export const createJob: MutationResolvers["createJob"] = async (
           id: model.id,
           type: model.type,
           inputData: model.inputData,
-          result: model.result,
+          status: model.status as unknown as ModelStatus,
           createdAt: model.createdAt.toISOString(),
           updatedAt: model.updatedAt?.toISOString(),
         },

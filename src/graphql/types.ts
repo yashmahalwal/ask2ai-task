@@ -52,10 +52,15 @@ export type Model = Node & {
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
   inputData: Scalars['String']['output'];
-  result?: Maybe<Scalars['String']['output']>;
+  status: ModelStatus;
   type: RegressionType;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
+
+export enum ModelStatus {
+  Trained = 'TRAINED',
+  Training = 'TRAINING'
+}
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -87,6 +92,16 @@ export enum RegressionType {
   Linear = 'LINEAR',
   Ridge = 'RIDGE'
 }
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  jobStatusUpdated?: Maybe<Job>;
+};
+
+
+export type SubscriptionJobStatusUpdatedArgs = {
+  jobId: Scalars['ID']['input'];
+};
 
 
 
@@ -173,11 +188,13 @@ export type ResolversTypes = {
   Job: ResolverTypeWrapper<Job>;
   JobStatus: JobStatus;
   Model: ResolverTypeWrapper<Model>;
+  ModelStatus: ModelStatus;
   Mutation: ResolverTypeWrapper<{}>;
   Node: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Node']>;
   Query: ResolverTypeWrapper<{}>;
   RegressionType: RegressionType;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  Subscription: ResolverTypeWrapper<{}>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -195,6 +212,7 @@ export type ResolversParentTypes = {
   Node: ResolversInterfaceTypes<ResolversParentTypes>['Node'];
   Query: {};
   String: Scalars['String']['output'];
+  Subscription: {};
 };
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
@@ -214,7 +232,7 @@ export type ModelResolvers<ContextType = any, ParentType extends ResolversParent
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   inputData?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  result?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['ModelStatus'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['RegressionType'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -234,6 +252,10 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   listJobs?: Resolver<Array<ResolversTypes['Job']>, ParentType, ContextType>;
 };
 
+export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
+  jobStatusUpdated?: SubscriptionResolver<Maybe<ResolversTypes['Job']>, "jobStatusUpdated", ParentType, ContextType, RequireFields<SubscriptionJobStatusUpdatedArgs, 'jobId'>>;
+};
+
 export type Resolvers<ContextType = any> = {
   DateTime?: GraphQLScalarType;
   Job?: JobResolvers<ContextType>;
@@ -241,5 +263,6 @@ export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   Node?: NodeResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Subscription?: SubscriptionResolvers<ContextType>;
 };
 

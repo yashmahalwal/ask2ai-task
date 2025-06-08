@@ -1,6 +1,11 @@
 import { Job } from "../../../storage/types/job";
 import { Model } from "../../../storage/types/model";
-import { RegressionType, QueryResolvers, JobStatus } from "../../types";
+import {
+  RegressionType,
+  QueryResolvers,
+  JobStatus,
+  ModelStatus,
+} from "../../types";
 import { logger } from "../../../utils/logger";
 
 export const listJobs: QueryResolvers["listJobs"] = async () => {
@@ -22,7 +27,7 @@ export const listJobs: QueryResolvers["listJobs"] = async () => {
               id: modelDb.id,
               type: modelDb.type as RegressionType,
               inputData: modelDb.inputData,
-              result: modelDb.result,
+              status: modelDb.status as unknown as ModelStatus,
               createdAt: modelDb.createdAt.toISOString(),
               updatedAt: modelDb.updatedAt?.toISOString(),
             }

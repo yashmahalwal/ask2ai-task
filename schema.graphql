@@ -19,6 +19,11 @@ enum JobStatus {
   FAILED
 }
 
+enum ModelStatus {
+  TRAINING
+  TRAINED
+}
+
 type Job implements Node {
   id: ID!
   createdAt: DateTime!
@@ -33,7 +38,7 @@ type Model implements Node {
   updatedAt: DateTime
   type: RegressionType!
   inputData: String!
-  result: String
+  status: ModelStatus!
 }
 
 input DataPointInput {
@@ -58,4 +63,8 @@ type Query {
 
 type Mutation {
   createJob(input: CreateJobInput!): Job
+}
+
+type Subscription {
+  jobStatusUpdated(jobId: ID!): Job
 }
