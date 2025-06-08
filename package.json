@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/index.ts",
-    "test": "jest",
     "generate-graphql-types": "graphql-codegen --config graphql-codegen.ts",
     "typecheck": "tsc --noEmit",
     "clean": "rimraf dist",
+    "lint": "eslint 'src/**/*.{ts,tsx}' --fix",
     "build": "npm run clean && tsc",
     "start": "node dist/index.js"
   },
@@ -36,14 +36,20 @@
     "ws": "^8.18.2"
   },
   "devDependencies": {
+    "@eslint/js": "^9.28.0",
     "@graphql-codegen/cli": "5.0.7",
     "@graphql-codegen/introspection": "4.0.3",
     "@graphql-codegen/typescript": "4.1.6",
     "@graphql-codegen/typescript-resolvers": "^4.5.1",
     "@types/node": "^22.15.30",
+    "@typescript-eslint/eslint-plugin": "^8.33.1",
+    "@typescript-eslint/parser": "^8.33.1",
+    "eslint": "^9.28.0",
+    "globals": "^16.2.0",
     "nodemon": "^3.1.10",
     "rimraf": "^5.0.10",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.33.1"
   }
 }
