@@ -2,13 +2,8 @@ import { logger } from "../../../utils/logger";
 import { JobStatus as DbJobStatus } from "../../../storage/types/job";
 import { sequelize } from "../../../storage/config";
 import { Job } from "../../../storage/types/job";
-import { Model } from "../../../storage/types/model";
-import {
-  MutationResolvers,
-  ResolversTypes,
-  JobStatus,
-  ModelStatus,
-} from "../../types";
+import { Model, ModelStatus } from "../../../storage/types/model";
+import { MutationResolvers, ResolversTypes, JobStatus } from "../../types";
 import { runModelJobAsync } from "../../handlers/run-model";
 
 export const createJob: MutationResolvers["createJob"] = async (
@@ -18,7 +13,7 @@ export const createJob: MutationResolvers["createJob"] = async (
   ___
 ) => {
   try {
-    const job = await sequelize.transaction(async (t) => {
+    const result = await sequelize.transaction(async (t) => {
       // Create the model first
       const model = await Model.create(
         {
@@ -27,6 +22,7 @@ export const createJob: MutationResolvers["createJob"] = async (
             data: input.model.data,
             alpha: input.model.alpha,
           }),
+          status: ModelStatus.TRAINING,
         },
         { transaction: t }
       );
@@ -40,29 +36,26 @@ export const createJob: MutationResolvers["createJob"] = async (
         { transaction: t }
       );
 
-      // Map the database model to GraphQL type
       return {
         id: job.id,
         status: JobStatus.Running,
         createdAt: job.createdAt.toISOString(),
         updatedAt: job.updatedAt?.toISOString(),
-        model: {
-          id: model.id,
-          type: model.type,
-          inputData: model.inputData,
-          status: model.status as unknown as ModelStatus,
-          createdAt: model.createdAt.toISOString(),
-          updatedAt: model.updatedAt?.toISOString(),
-        },
+        modelId: job.modelId,
       } as ResolversTypes["Job"];
     });
 
-    runModelJobAsync(input.model.data, input.model.alpha, job.id, job.model.id);
+    runModelJobAsync(
+      input.model.data,
+      input.model.alpha,
+      result.id,
+      result.modelId
+    );
 
     logger.debug(
-      `Created new job with ID: ${job.id}, model ID ${job.model.id}`
+      `Created new job with ID: ${result.id}, model ID: ${result.modelId}`
     );
-    return job;
+    return result;
   } catch (error) {
     logger.error("Error creating job:", error);
     throw error;

@@ -37,6 +37,7 @@ export type Job = Node & {
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
   model?: Maybe<Model>;
+  modelId: Scalars['ID']['output'];
   status: JobStatus;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
@@ -223,6 +224,7 @@ export type JobResolvers<ContextType = any, ParentType extends ResolversParentTy
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   model?: Resolver<Maybe<ResolversTypes['Model']>, ParentType, ContextType>;
+  modelId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['JobStatus'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

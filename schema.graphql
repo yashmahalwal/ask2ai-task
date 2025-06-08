@@ -29,6 +29,8 @@ type Job implements Node {
   createdAt: DateTime!
   updatedAt: DateTime
   status: JobStatus!
+  modelId: ID!
+  # The model field is resolved asynchronously via a field resolver using modelId
   model: Model
 }
 
