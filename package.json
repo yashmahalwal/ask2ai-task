@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/index.ts",
     "test": "jest",
-    "graphql-types": "graphql-codegen --config graphql-codegen.ts",
+    "generate-graphql-types": "graphql-codegen --config graphql-codegen.ts",
     "typecheck": "tsc --noEmit",
     "clean": "rimraf dist",
     "build": "npm run clean && tsc",
