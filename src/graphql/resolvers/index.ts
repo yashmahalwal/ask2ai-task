@@ -5,6 +5,7 @@ import { jobStatusUpdated } from "./jobs/job-status-updated";
 import { Job } from "./jobs/job";
 import { getJob } from "./jobs/get-job";
 import { getModel } from "./models/get-model";
+import { predict } from "./models/predict";
 import { Resolvers } from "../types";
 
 export const resolvers: Resolvers = {
@@ -16,6 +17,7 @@ export const resolvers: Resolvers = {
   },
   Mutation: {
     createJob,
+    predict,
   },
   Subscription: {
     jobStatusUpdated,

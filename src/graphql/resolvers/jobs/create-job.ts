@@ -12,6 +12,10 @@ export const createJob: MutationResolvers["createJob"] = async (
   __,
   ___
 ) => {
+  if (typeof input.model.alpha === "number" && input.model.alpha <= 0) {
+    throw new Error("Alpha must be greater than 0");
+  }
+
   try {
     const result = await sequelize.transaction(async (t) => {
       // Create the model first

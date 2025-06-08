@@ -64,8 +64,16 @@ type Query {
   getModel(id: ID!): Model
 }
 
+type Prediction {
+  value: Float!
+  modelId: ID!
+  input: Float!
+  timestamp: DateTime!
+}
+
 type Mutation {
   createJob(input: CreateJobInput!): Job
+  predict(modelId: ID!, input: Float!): Prediction!
 }
 
 type Subscription {

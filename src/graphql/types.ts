@@ -66,6 +66,7 @@ export enum ModelStatus {
 export type Mutation = {
   __typename?: 'Mutation';
   createJob?: Maybe<Job>;
+  predict: Prediction;
 };
 
 
@@ -73,8 +74,22 @@ export type MutationCreateJobArgs = {
   input: CreateJobInput;
 };
 
+
+export type MutationPredictArgs = {
+  input: Scalars['Float']['input'];
+  modelId: Scalars['ID']['input'];
+};
+
 export type Node = {
   id: Scalars['ID']['output'];
+};
+
+export type Prediction = {
+  __typename?: 'Prediction';
+  input: Scalars['Float']['output'];
+  modelId: Scalars['ID']['output'];
+  timestamp: Scalars['DateTime']['output'];
+  value: Scalars['Float']['output'];
 };
 
 export type Query = {
@@ -198,6 +213,7 @@ export type ResolversTypes = {
   ModelStatus: ModelStatus;
   Mutation: ResolverTypeWrapper<{}>;
   Node: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Node']>;
+  Prediction: ResolverTypeWrapper<Prediction>;
   Query: ResolverTypeWrapper<{}>;
   RegressionType: RegressionType;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
@@ -217,6 +233,7 @@ export type ResolversParentTypes = {
   Model: Model;
   Mutation: {};
   Node: ResolversInterfaceTypes<ResolversParentTypes>['Node'];
+  Prediction: Prediction;
   Query: {};
   String: Scalars['String']['output'];
   Subscription: {};
@@ -248,11 +265,20 @@ export type ModelResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createJob?: Resolver<Maybe<ResolversTypes['Job']>, ParentType, ContextType, RequireFields<MutationCreateJobArgs, 'input'>>;
+  predict?: Resolver<ResolversTypes['Prediction'], ParentType, ContextType, RequireFields<MutationPredictArgs, 'input' | 'modelId'>>;
 };
 
 export type NodeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Node'] = ResolversParentTypes['Node']> = {
   __resolveType: TypeResolveFn<'Job' | 'Model', ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+};
+
+export type PredictionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Prediction'] = ResolversParentTypes['Prediction']> = {
+  input?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  modelId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  timestamp?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -271,6 +297,7 @@ export type Resolvers<ContextType = any> = {
   Model?: ModelResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Node?: NodeResolvers<ContextType>;
+  Prediction?: PredictionResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
 };
