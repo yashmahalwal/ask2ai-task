@@ -171,6 +171,10 @@ This project is intentionally kept simple and pragmatic, reflecting the needs of
 - **TypeScript:** Ensures type safety, better developer experience, and fewer runtime errors.
 - **graphql-subscriptions:** Simple pub/sub implementation for real-time GraphQL subscriptions, suitable for demo and small-scale use.
 
+### **Strong Typing**
+
+- The codebase is strongly typed end-to-end using TypeScript and GraphQL code generation. All resolvers, models, and API layers use generated types, ensuring type safety and reducing runtime errors.
+
 ### **Trade-Offs**
 
 - The stack is intentionally minimal—no microservices, no complex orchestration, and no heavy infrastructure. This keeps the codebase easy to understand and maintain for a small project.
@@ -237,5 +241,17 @@ These choices make the project approachable, easy to extend, and well-suited for
 
 - **Database:**
   - By default, the project uses a local SQLite database file. No setup is required for development.
+
+---
+
+## Demos
+
+### Model Training
+
+- [Watch a demo of model training and job tracking on Loom](https://www.loom.com/share/2d0121b44ada404f8411dbfb7f77e6dc?sid=aed39787-72be-4230-83d6-b9f48e776ade)
+
+### Getting Predictions
+
+- [Watch a demo of getting predictions on Loom](https://www.loom.com/share/ca53374ac63349a3be06864bb1315f97?sid=969a437b-d193-4aba-8dfe-d069a4fdee46)
 
 ---
