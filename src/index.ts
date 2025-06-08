@@ -30,7 +30,7 @@ async function main() {
   // Set up WebSocket server for subscriptions
   const wsServer = new WebSocketServer({
     server: httpServer,
-    path: "/subscriptions",
+    path: "/graphql",
   });
 
   // Save the returned server's info so we can shutdown this server later

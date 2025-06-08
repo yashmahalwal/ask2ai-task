@@ -9,7 +9,7 @@ export async function runLinearRegression(
   logger.debug(`Data: ${JSON.stringify(data)}`);
   logger.debug(`Alpha: ${alpha}`);
   await new Promise((resolve) =>
-    setTimeout(resolve, isDev() ? 5000 : 60 * 1000)
+    setTimeout(resolve, isDev() ? 20000 : 60 * 1000)
   );
   logger.debug("Linear regression completed");
   return {
