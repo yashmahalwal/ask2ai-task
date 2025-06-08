@@ -1,8 +1,8 @@
-import { ModelStatus, QueryResolvers, RegressionType } from "../../types";
-import { Model } from "../../../storage/types/model";
-import { logger } from "../../../utils/logger";
+import { ModelStatus, QueryResolvers, RegressionType } from '../../types';
+import { Model } from '../../../storage/types/model';
+import { logger } from '../../../utils/logger';
 
-export const getModel: QueryResolvers["getModel"] = async (_parent, { id }) => {
+export const getModel: QueryResolvers['getModel'] = async (_parent, { id }) => {
   logger.debug(`Fetching model with ID: ${id}`);
   const model = await Model.findByPk(id);
   if (!model) {

@@ -1,8 +1,8 @@
-import { MutationResolvers } from "../../types";
-import { Model, ModelStatus } from "../../../storage/types/model";
-import { logger } from "../../../utils/logger";
+import { MutationResolvers } from '../../types';
+import { Model, ModelStatus } from '../../../storage/types/model';
+import { logger } from '../../../utils/logger';
 
-export const predict: MutationResolvers["predict"] = async (
+export const predict: MutationResolvers['predict'] = async (
   _parent,
   { modelId, input }
 ) => {

@@ -1,12 +1,12 @@
-import { PubSub } from "graphql-subscriptions";
-import { Job, JobStatus, Model } from "./graphql/types";
-import { logger } from "./utils/logger";
+import { PubSub } from 'graphql-subscriptions';
+import { Job, JobStatus, Model } from './graphql/types';
+import { logger } from './utils/logger';
 
-export const JOB_STATUS_UPDATED = "JOB_STATUS_UPDATED";
+export const JOB_STATUS_UPDATED = 'JOB_STATUS_UPDATED';
 
 export type JobStatusUpdatedPayload = {
-  jobId: Job["id"];
-  modelId: Model["id"];
+  jobId: Job['id'];
+  modelId: Model['id'];
   status: JobStatus;
 };
 
@@ -24,11 +24,11 @@ export function publishJobStatusUpdated(payload: JobStatusUpdatedPayload) {
 export function isJobStatusUpdatedPayload(
   obj: unknown
 ): obj is JobStatusUpdatedPayload {
-  if (typeof obj !== "object" || obj === null) return false;
+  if (typeof obj !== 'object' || obj === null) return false;
   const o = obj as Record<string, unknown>;
   return (
-    typeof o.jobId === "string" &&
-    typeof o.modelId === "string" &&
-    typeof o.status === "string"
+    typeof o.jobId === 'string' &&
+    typeof o.modelId === 'string' &&
+    typeof o.status === 'string'
   );
 }

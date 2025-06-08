@@ -1,8 +1,8 @@
-import { JobStatus, QueryResolvers } from "../../types";
-import { Job } from "../../../storage/types/job";
-import { logger } from "../../../utils/logger";
+import { JobStatus, QueryResolvers } from '../../types';
+import { Job } from '../../../storage/types/job';
+import { logger } from '../../../utils/logger';
 
-export const getJob: QueryResolvers["getJob"] = async (_parent, { id }) => {
+export const getJob: QueryResolvers['getJob'] = async (_parent, { id }) => {
   logger.debug(`Fetching job with ID: ${id}`);
   const job = await Job.findByPk(id);
   if (!job) {

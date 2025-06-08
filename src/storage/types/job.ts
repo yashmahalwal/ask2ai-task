@@ -5,14 +5,14 @@ import {
   InferAttributes,
   InferCreationAttributes,
   ForeignKey,
-} from "sequelize";
-import { sequelize } from "../config";
-import { Model as MLModel } from "./model";
+} from 'sequelize';
+import { sequelize } from '../config';
+import { Model as MLModel } from './model';
 
 export enum JobStatus {
-  RUNNING = "RUNNING",
-  COMPLETED = "COMPLETED",
-  FAILED = "FAILED",
+  RUNNING = 'RUNNING',
+  COMPLETED = 'COMPLETED',
+  FAILED = 'FAILED',
 }
 
 // Job model: Represents a processing job that is always linked to a Model via a foreign key (modelId).
@@ -25,7 +25,7 @@ export class Job extends SequelizeModel<
   declare id: CreationOptional<string>;
   declare status: JobStatus;
   // Foreign key linking this job to its model
-  declare modelId: ForeignKey<MLModel["id"]>;
+  declare modelId: ForeignKey<MLModel['id']>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -47,9 +47,9 @@ Job.init(
       allowNull: false,
       references: {
         model: MLModel,
-        key: "id",
+        key: 'id',
       },
-      onDelete: "CASCADE",
+      onDelete: 'CASCADE',
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -64,10 +64,10 @@ Job.init(
   },
   {
     sequelize,
-    tableName: "jobs",
+    tableName: 'jobs',
     timestamps: true,
   }
 );
 
-Job.belongsTo(MLModel, { foreignKey: "modelId", as: "model" });
-MLModel.hasOne(Job, { foreignKey: "modelId", as: "job" });
+Job.belongsTo(MLModel, { foreignKey: 'modelId', as: 'model' });
+MLModel.hasOne(Job, { foreignKey: 'modelId', as: 'job' });

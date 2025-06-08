@@ -3,17 +3,17 @@ import {
   JOB_STATUS_UPDATED,
   JobStatusUpdatedPayload,
   pubsub,
-} from "../../../pubsub";
+} from '../../../pubsub';
 import {
   SubscriptionResolvers,
   JobStatus,
   SubscriptionJobStatusUpdatedArgs,
-} from "../../types";
-import { Job } from "../../../storage/types/job";
-import { logger } from "../../../utils/logger";
-import { withFilter } from "graphql-subscriptions";
+} from '../../types';
+import { Job } from '../../../storage/types/job';
+import { logger } from '../../../utils/logger';
+import { withFilter } from 'graphql-subscriptions';
 
-export const jobStatusUpdated: SubscriptionResolvers["jobStatusUpdated"] = {
+export const jobStatusUpdated: SubscriptionResolvers['jobStatusUpdated'] = {
   subscribe: withFilter(
     () => pubsub.asyncIterableIterator(JOB_STATUS_UPDATED),
     (payload, args) => {

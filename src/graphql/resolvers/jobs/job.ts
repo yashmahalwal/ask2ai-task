@@ -1,5 +1,5 @@
-import { JobResolvers, RegressionType, ModelStatus } from "../../types";
-import { Model } from "../../../storage/types/model";
+import { JobResolvers, RegressionType, ModelStatus } from '../../types';
+import { Model } from '../../../storage/types/model';
 
 export const Job: JobResolvers = {
   model: async (jobDb) => {

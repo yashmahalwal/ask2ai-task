@@ -4,12 +4,12 @@ import {
   CreationOptional,
   InferAttributes,
   InferCreationAttributes,
-} from "sequelize";
-import { sequelize } from "../config";
+} from 'sequelize';
+import { sequelize } from '../config';
 
 export enum ModelStatus {
-  TRAINING = "TRAINING",
-  TRAINED = "TRAINED",
+  TRAINING = 'TRAINING',
+  TRAINED = 'TRAINED',
 }
 
 export class Model extends SequelizeModel<
@@ -52,7 +52,7 @@ Model.init(
   },
   {
     sequelize,
-    tableName: "models",
+    tableName: 'models',
     timestamps: true,
   }
 );

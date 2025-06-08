@@ -1,9 +1,9 @@
-import { publishJobStatusUpdated } from "../../pubsub";
-import { runLinearRegression } from "../../run-linear-regression";
-import { Job, JobStatus as DBJobStatus } from "../../storage/types/job";
-import { Model, ModelStatus } from "../../storage/types/model";
-import { logger } from "../../utils/logger";
-import { JobStatus } from "../types";
+import { publishJobStatusUpdated } from '../../pubsub';
+import { runLinearRegression } from '../../run-linear-regression';
+import { Job, JobStatus as DBJobStatus } from '../../storage/types/job';
+import { Model, ModelStatus } from '../../storage/types/model';
+import { logger } from '../../utils/logger';
+import { JobStatus } from '../types';
 
 export async function runModel(
   data: { x: number; y: number }[],

@@ -10,7 +10,8 @@
     "clean": "rimraf dist",
     "lint": "eslint 'src/**/*.{ts,tsx}' --fix",
     "build": "npm run clean && tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,md}\""
   },
   "repository": {
     "type": "git",
@@ -41,12 +42,14 @@
     "@graphql-codegen/introspection": "4.0.3",
     "@graphql-codegen/typescript": "4.1.6",
     "@graphql-codegen/typescript-resolvers": "^4.5.1",
+    "@types/cors": "^2.8.19",
     "@types/node": "^22.15.30",
     "@typescript-eslint/eslint-plugin": "^8.33.1",
     "@typescript-eslint/parser": "^8.33.1",
     "eslint": "^9.28.0",
     "globals": "^16.2.0",
     "nodemon": "^3.1.10",
+    "prettier": "^3.5.3",
     "rimraf": "^5.0.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
