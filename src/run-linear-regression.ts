@@ -8,11 +8,17 @@ export async function runLinearRegression(
   logger.debug("Running linear regression");
   logger.debug(`Data: ${JSON.stringify(data)}`);
   logger.debug(`Alpha: ${alpha}`);
-  await new Promise((resolve) =>
-    setTimeout(resolve, isDev() ? 20000 : 60 * 1000)
-  );
-  logger.debug("Linear regression completed");
-  return {
-    result: "mock_result",
-  };
+
+  try {
+    await new Promise((resolve) =>
+      setTimeout(resolve, isDev() ? 20000 : 60 * 1000)
+    );
+    logger.debug("Linear regression completed");
+    return {
+      result: "mock_result",
+    };
+  } catch (error) {
+    logger.error("Error in linear regression:", error);
+    throw error;
+  }
 }
