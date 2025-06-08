@@ -1,7 +1,9 @@
 import fs from "fs";
+import path from "path";
 
-export const typeDefs = fs.readFileSync(
-  // Relative to cwd - where the server is running
-  "./schema.graphql",
-  "utf-8"
-);
+const schemaPath =
+  process.env.NODE_ENV === "production"
+    ? path.join(__dirname, "..", "schema.graphql")
+    : path.join(process.cwd(), "schema.graphql");
+
+export const typeDefs = fs.readFileSync(schemaPath, "utf-8");

@@ -3,7 +3,7 @@ import { logger } from "./utils/logger";
 
 export async function runLinearRegression(
   data: { x: number; y: number }[],
-  alpha: number
+  alpha: number | null | undefined
 ) {
   logger.debug("Running linear regression");
   logger.debug(`Data: ${JSON.stringify(data)}`);

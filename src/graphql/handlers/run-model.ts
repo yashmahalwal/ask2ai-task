@@ -7,7 +7,7 @@ import { JobStatus } from "../types";
 
 export async function runModel(
   data: { x: number; y: number }[],
-  alpha: number,
+  alpha: number | null | undefined,
   jobId: string,
   modelId: string
 ) {

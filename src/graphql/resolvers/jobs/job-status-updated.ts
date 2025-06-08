@@ -1,33 +1,45 @@
 import {
+  isJobStatusUpdatedPayload,
   JOB_STATUS_UPDATED,
   JobStatusUpdatedPayload,
   pubsub,
 } from "../../../pubsub";
-import { SubscriptionResolvers, JobStatus } from "../../types";
+import {
+  SubscriptionResolvers,
+  JobStatus,
+  SubscriptionJobStatusUpdatedArgs,
+} from "../../types";
 import { Job } from "../../../storage/types/job";
 import { logger } from "../../../utils/logger";
 import { withFilter } from "graphql-subscriptions";
 
 export const jobStatusUpdated: SubscriptionResolvers["jobStatusUpdated"] = {
   subscribe: withFilter(
-    () => {
-      logger.debug("New subscription to jobStatusUpdated");
-      return pubsub.asyncIterableIterator(JOB_STATUS_UPDATED);
-    },
-    (payload: JobStatusUpdatedPayload, { jobId }) => {
-      const matches = payload.jobId === jobId;
+    () => pubsub.asyncIterableIterator(JOB_STATUS_UPDATED),
+    (payload, args) => {
+      if (!args || !isJobStatusUpdatedPayload(payload)) {
+        return false;
+      }
+
+      const matches = (payload as JobStatusUpdatedPayload).jobId === args.jobId;
       logger.debug(
-        `Filtering subscription event: jobId=${jobId}, matches=${matches}`
+        `Filtering subscription event: jobId=${args.jobId}, matches=${matches}`
       );
       return matches;
     }
   ),
-  resolve: async (payload: JobStatusUpdatedPayload, { jobId }) => {
+
+  resolve: async (
+    payload: JobStatusUpdatedPayload,
+    args: SubscriptionJobStatusUpdatedArgs
+  ) => {
     logger.debug(
       `Received jobStatusUpdated payload for jobId: ${payload.jobId}, status: ${payload.status}`
     );
-    if (payload.jobId !== jobId) {
-      logger.debug(`Job ID mismatch: expected ${jobId}, got ${payload.jobId}`);
+    if (payload.jobId !== args.jobId) {
+      logger.debug(
+        `Job ID mismatch: expected ${args.jobId}, got ${payload.jobId}`
+      );
       return null;
     }
     const job = await Job.findByPk(payload.jobId);
