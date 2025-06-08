@@ -1,5 +1,5 @@
 import { MutationResolvers } from "../../types";
-import { Model } from "../../../storage/types/model";
+import { Model, ModelStatus } from "../../../storage/types/model";
 import { logger } from "../../../utils/logger";
 
 export const predict: MutationResolvers["predict"] = async (
@@ -14,7 +14,7 @@ export const predict: MutationResolvers["predict"] = async (
     throw new Error(`Model not found with ID: ${modelId}`);
   }
 
-  if (model.status !== "TRAINED") {
+  if (model.status !== ModelStatus.TRAINED) {
     logger.debug(
       `Model ${modelId} is not trained yet. Current status: ${model.status}`
     );

@@ -1,5 +1,15 @@
 # Ask2.ai Backend Assignment
 
+## Table of Contents
+
+- [Introduction](#introduction)
+- [High-Level API Design](#high-level-api-design)
+- [Storage Modelling](#storage-modelling)
+- [GraphQL Modelling](#graphql-modelling)
+- [Coding Practices & Design Choices](#coding-practices--design-choices)
+- [Development](#development)
+- [Demos](#demos)
+
 ## Introduction
 
 This project is a Node.js GraphQL API designed to simulate a machine learning workflow with two primary actions:
