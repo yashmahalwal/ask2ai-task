@@ -80,11 +80,17 @@ export type Node = {
 export type Query = {
   __typename?: 'Query';
   getJob?: Maybe<Job>;
+  getModel?: Maybe<Model>;
   listJobs: Array<Job>;
 };
 
 
 export type QueryGetJobArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryGetModelArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -251,6 +257,7 @@ export type NodeResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getJob?: Resolver<Maybe<ResolversTypes['Job']>, ParentType, ContextType, RequireFields<QueryGetJobArgs, 'id'>>;
+  getModel?: Resolver<Maybe<ResolversTypes['Model']>, ParentType, ContextType, RequireFields<QueryGetModelArgs, 'id'>>;
   listJobs?: Resolver<Array<ResolversTypes['Job']>, ParentType, ContextType>;
 };
 

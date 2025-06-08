@@ -61,6 +61,7 @@ input CreateModelInput {
 type Query {
   listJobs: [Job!]!
   getJob(id: ID!): Job
+  getModel(id: ID!): Model
 }
 
 type Mutation {
